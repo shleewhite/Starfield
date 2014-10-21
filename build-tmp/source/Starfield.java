@@ -19,8 +19,8 @@ public void setup()
 {
 	size(1000, 900);
 	background(0);
-	starz = new Particle[50];
-	for (int i = 0; i < starz.length - 5; i++)
+	starz = new Particle[500];
+	for (int i = 0; i < starz.length - 6; i++)
 	{
 		starz[i] = new NormalParticle();
 	}
@@ -29,17 +29,15 @@ public void setup()
 	starz[starz.length-3] = new OddballParticle();
 	starz[starz.length-4] = new OddballParticle();
 	starz[starz.length-5] = new OddballParticle();
+	starz[starz.length-6] = new Jumbo();
 }
 public void draw()
 {
-	if ((int)((NormalParticle)starz[0]).dX == 500)
+	if (((NormalParticle)starz[0]).dX - 500 < 2)
 	{
 		background(0);
 	}
-	if ((int)((OddballParticle)starz[49]).dXX == 500)
-	{
-		background(0);
-	}
+	
 	for (int i = 0; i < starz.length; i++)
 	{
 		starz[i].move();
@@ -96,7 +94,26 @@ class OddballParticle implements Particle
 		stroke(0, 0, 255);
 		fill((int)Math.random()*256, 192, 192);
 		ellipse((float)dXX, (float)dYY, 15, 15);
+	}}
+class Jumbo extends NormalParticle implements Particle
+{
+	int jumboSize;
+	Jumbo()
+	{
+		jumboSize = 100;
 	}
+	public void move()
+	{
+		dX = dX + Math.cos(dTheta)*dSpeed;
+		dY = dY + Math.sin(dTheta)*dSpeed;
+		dTheta += 0.01f;
+	}
+	public void show()
+	{
+		stroke(0, 0, 0);
+		noFill();
+		ellipse((float)dX, (float)dY, jumboSize, jumboSize);
+	}	
 }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "Starfield" };
